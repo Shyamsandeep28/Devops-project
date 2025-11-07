@@ -29,6 +29,9 @@ jobs:
       - name: Build Docker image
         run: sudo docker build -t myfile .
 
-      # Stage 5: Run Docker Container
+    build:
+     runs-on: self-managed
+
+       # Stage 5: Run Docker Container
       - name: Run Docker container
         run: sudo docker run -dt --name appcontainer -p 5081:8080 myfile
