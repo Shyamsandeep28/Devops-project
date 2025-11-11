@@ -18,9 +18,9 @@ jobs:
           mvn -B clean package --file pom.xml
       - name: Build Image
         run:
-          docker build -t testimage .
+          sudo docker build -t testimage .
       - name: create container
         run:
-          docker run -d --name myapplication -p 8082:8080 testimage
+          sudo docker run -d --name myapplication -p 8082:8080 testimage
 
    
