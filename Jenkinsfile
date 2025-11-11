@@ -2,30 +2,50 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
+        stage('checkout') {
             steps {
-                // Checkout code from the repository
                 git 'https://github.com/Shyamsandeep28/Devops-project.git'
             }
         }
-
-        stage('Build') {
+          stage('test by trivy') {
             steps {
-                // Build the project
-                sh 'mvn clean' // Modify this based on your build command
-                sh 'mvn package'
+                sh 'trivy repo https://github.com/Shyamsandeep28/Devops-project.git'
             }
         }
 
-       
-        stage('Deploy') {
+   stage('test by sonar') {
             steps {
-                // Deploy the application (Optional)
-                sh 'docker build -t myfile .'
-                sh 'docker run -dt --name appcontainer -p 5081:8080 myfile'
+                sh 'mvn sonar:sonar -Dsonar.host.url=http://172.178.49.66:9000/ -Dsonar.login=sqa_b0de691185abae8cefe67ea337a40ebeff7a457f'
             }
         }
+        
+        
+          stage('build') {
+            steps {
+               sh 'mvn clean'
+              sh 'mvn package'
+
+            }
+        }
+        
+        
+          stage('build image') {
+            steps {
+                sh 'docker build -t newimage .'
+            }
+        }
+        
+          stage('testing by Trivy') {
+            steps {
+                sh 'trivy image newimage'
+            }
+        }
+     stage('deploy') {
+            steps {
+                sh 'docker rm -f newapplication'
+                sh 'docker run -d --name newapplication -p 8089:8080 newimage'
+            }
+        }
+
     }
-
-    
 }
