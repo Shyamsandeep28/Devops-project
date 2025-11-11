@@ -22,19 +22,21 @@ jobs:
       # Stage 3: Build using Maven
       - name: Build project
         run: |
-          mvn clean package
+          mvn -B clean package --file pom.xml
+
+      # Debug step
+      - name: List files
+        run: ls -R .
+
+      # Stage 4: Upload compiled jar
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: build-artifact
-          path: target/*.jar
+          path: |
+            **/target/*.jar
 
-      # Stage 4: Build Docker Image (Docker is already available on GitHub runner)
+      # Stage 5: Build Docker Image
       - name: Build Docker image
         run: |
           docker build -t myfile .
-
-      # Stage 5: Run Docker Container
-      - name: Run Docker container
-        run: |
-          docker run -dt --name appcontainer -p 5081:8080 myfile
