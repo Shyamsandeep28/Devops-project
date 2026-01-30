@@ -21,7 +21,7 @@ jobs:
           sudo docker build -t testimage .
       - name: delete container
         run:
-          sudo docker rm -f myapplication
+          sudo docker rm -f $(docker ps -aq)
       - name: create container
         run:
           sudo docker run -d --name myapplication -p 8082:8080 testimage
