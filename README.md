@@ -49,15 +49,10 @@ java -version
 cd /opt
 sudo wget https://dlcdn.apache.org/maven/maven-3/3.9.11/binaries/apache-maven-3.9.11-bin.tar.gz
 sudo tar -xvzf apache-maven-3.9.11-bin.tar.gz
-```
-
-Create symbolic links:
-
-```bash
 sudo ln -s /opt/apache-maven-3.9.11 /opt/maven
 sudo ln -s /opt/maven/bin/mvn /usr/bin/mvn
+sudo apt install maven -y
 ```
-
 Verify Maven installation:
 
 ```bash
