@@ -21,6 +21,7 @@ jobs:
           sudo docker build -t testimage .
       - name: create container
         run:
+          sudo docker rm -f myapplication
           sudo docker run -d --name myapplication -p 8082:8080 testimage
           
 
